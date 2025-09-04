@@ -117,6 +117,7 @@ def write_html(rows: List[dict]):
     .tag { border:1px solid rgba(255,255,255,0.12); color:var(--muted); padding:2px 8px; border-radius:999px; font-size:12px; }
     .links { display:flex; gap:10px; margin-top:10px; flex-wrap: wrap; }
     .link { color:#93c5fd; text-decoration:none; font-size:13px; }
+    .link-miri { color:#22AFC0; }
     footer { text-align:center; color:var(--muted); padding:24px; font-size:13px; }
     @media (max-width: 640px) {
       .container { padding: 12px; }
@@ -205,16 +206,19 @@ def write_html(rows: List[dict]):
                 f.write(f"    <div class=meta>{meta}</div>\n")
             links_out = []
             if x_url:
-                links_out.append(("X", x_url))
+                links_out.append(("X", x_url, ""))
             for s in sns:
                 label = s.split("//")[-1]
-                links_out.append((label, s))
+                extra = " link-miri" if "miricanvas.com" in s else ""
+                if "miricanvas.com" in s:
+                    label = "おすすめAIツールMiriCanvas"
+                links_out.append((label, s, extra))
             if links_out:
                 f.write("    <div class=links>\n")
-                for label, url in links_out[:4]:
+                for label, url, extra_cls in links_out[:4]:
                     url_esc = htmllib.escape(url)
                     label_esc = htmllib.escape(label[:28])
-                    f.write(f"      <a class=link target=_blank rel=noopener href=\"{url_esc}\">{label_esc}</a>\n")
+                    f.write(f"      <a class=link{extra_cls} target=_blank rel=noopener href=\"{url_esc}\">{label_esc}</a>\n")
                 f.write("    </div>\n")
             f.write("  </div>\n")
         f.write("</div>\n</div>\n")
