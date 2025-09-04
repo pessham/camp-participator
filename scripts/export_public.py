@@ -48,23 +48,23 @@ def write_md(rows: List[dict], fieldnames: List[str]):
 
 def ensure_docs_icons(icon_path: str) -> str:
     """Copy local icon into docs/assets/icons and return the path for HTML src.
-    If icon_path is remote (http/https), return it as-is.
+    If icon_path is remote (http/https), return it as-is. Appends a cache-busting
+    query string based on file mtime to avoid stale images on Pages.
     """
     if icon_path.startswith("http://") or icon_path.startswith("https://"):
         return icon_path
     if not icon_path:
         return ""
     os.makedirs(DOCS_ASSETS_DIR, exist_ok=True)
-    # Keep the basename only
     basename = os.path.basename(icon_path)
     dst = os.path.join(DOCS_ASSETS_DIR, basename)
     try:
         shutil.copy2(icon_path, dst)
+        mtime = int(os.path.getmtime(dst))
     except FileNotFoundError:
-        # If missing, leave empty to avoid broken links
         return ""
-    # Return path relative to docs root
-    return f"assets/icons/{basename}"
+    # Return path relative to docs root with cache buster
+    return f"assets/icons/{basename}?v={mtime}"
 
 
 def write_html(rows: List[dict]):
