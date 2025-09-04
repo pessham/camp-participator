@@ -14,19 +14,27 @@
     .btn { display:inline-block; padding:8px 14px; border-radius:999px; border:1px solid rgba(255,255,255,0.12); color:#0b1220; background:#22d3ee; text-decoration:none; font-weight:600; }
     .btn:hover { filter: brightness(1.05); }
     .container { max-width:1100px; margin:0 auto; padding:16px; }
-    .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap:16px; }
+    .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap:16px; }
     .card { background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02)); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:14px; }
     .avatar { width:72px; height:72px; border-radius:50%; object-fit:cover; border:2px solid rgba(255,255,255,0.1); background:#222; }
     .row { display:flex; gap:12px; align-items:center; }
     .name { font-size:18px; font-weight:700; }
     .feature { color:var(--accent); font-size:14px; margin-top:2px; }
-    .meta { color:var(--muted); font-size:13px; margin-top:8px; }
-    .desc { font-size:14px; line-height:1.5; margin-top:8px; color:#d1d5db; }
+    .meta { color:var(--muted); font-size:13px; margin-top:8px; word-break: break-word; overflow-wrap: anywhere; }
+    .desc { font-size:14px; line-height:1.6; margin-top:8px; color:#d1d5db; word-break: break-word; overflow-wrap: anywhere; }
     .tags { display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
     .tag { border:1px solid rgba(255,255,255,0.12); color:var(--muted); padding:2px 8px; border-radius:999px; font-size:12px; }
-    .links { display:flex; gap:10px; margin-top:10px; }
+    .links { display:flex; gap:10px; margin-top:10px; flex-wrap: wrap; }
     .link { color:#93c5fd; text-decoration:none; font-size:13px; }
     footer { text-align:center; color:var(--muted); padding:24px; font-size:13px; }
+    @media (max-width: 640px) {
+      .container { padding: 12px; }
+      .grid { grid-template-columns: 1fr; gap: 12px; }
+      .card { padding: 12px; }
+      .avatar { width: 64px; height: 64px; }
+      .name { font-size: 17px; }
+      .feature { font-size: 13px; }
+    }
   </style>
   <meta name="robots" content="noindex" />
   <!-- 共有時のみ index へ変更 -->
@@ -41,7 +49,7 @@
 <div class=grid>
   <div class=card>
     <div class=row>
-      <img class=avatar src="assets/icons/ritsuto_NFT_Vt.jpg" alt="リツト" onerror=" this.onerror=null; this.src='https://unavatar.io/x/ritsuto_NFT_Vt'" />
+      <img class=avatar src="assets/icons/ritsuto_NFT_Vt.jpg" alt="リツト" loading="lazy" decoding="async" onerror=" this.onerror=null; this.src='https://unavatar.io/x/ritsuto_NFT_Vt'" />
       <div>
         <div class=name>リツト</div>
         <div class=feature>バイブコーディング制作/司会/イベント/料理</div>
@@ -55,7 +63,7 @@
   </div>
   <div class=card>
     <div class=row>
-      <img class=avatar src="assets/icons/hidekichan20.jpg" alt="ひでき / HIDEKI Crypto Coffee" onerror=" this.onerror=null; this.src='https://unavatar.io/x/hidekichan20'" />
+      <img class=avatar src="assets/icons/hidekichan20.jpg" alt="ひでき / HIDEKI Crypto Coffee" loading="lazy" decoding="async" onerror=" this.onerror=null; this.src='https://unavatar.io/x/hidekichan20'" />
       <div>
         <div class=name>ひでき / HIDEKI Crypto Coffee</div>
         <div class=feature>自家焙煎コーヒー/不動産賃貸</div>
@@ -70,7 +78,7 @@
   </div>
   <div class=card>
     <div class=row>
-      <img class=avatar src="assets/icons/pess_ham.jpg" alt="ペスハム" onerror=" this.onerror=null; this.src='https://unavatar.io/x/pess_ham'" />
+      <img class=avatar src="assets/icons/pess_ham.jpg" alt="ペスハム" loading="lazy" decoding="async" onerror=" this.onerror=null; this.src='https://unavatar.io/x/pess_ham'" />
       <div>
         <div class=name>ペスハム</div>
         <div class=feature>コーチング/AI研修講師/長野拠点</div>
@@ -87,7 +95,7 @@
   </div>
   <div class=card>
     <div class=row>
-      <img class=avatar src="assets/icons/2020chinawata.jpg" alt="ちな" onerror=" this.onerror=null; this.src='https://unavatar.io/x/2020chinawata'" />
+      <img class=avatar src="assets/icons/2020chinawata.jpg" alt="ちな" loading="lazy" decoding="async" onerror=" this.onerror=null; this.src='https://unavatar.io/x/2020chinawata'" />
       <div>
         <div class=name>ちな</div>
         <div class=feature>会社員×オンライン秘書</div>
@@ -102,7 +110,7 @@
   </div>
   <div class=card>
     <div class=row>
-      <img class=avatar src="assets/icons/Luckynaou.jpg" alt="なお" onerror=" this.onerror=null; this.src='https://unavatar.io/x/Luckynaou'" />
+      <img class=avatar src="assets/icons/Luckynaou.jpg" alt="なお" loading="lazy" decoding="async" onerror=" this.onerror=null; this.src='https://unavatar.io/x/Luckynaou'" />
       <div>
         <div class=name>なお</div>
         <div class=feature>作業療法士/地域連携</div>
@@ -119,7 +127,7 @@
   </div>
   <div class=card>
     <div class=row>
-      <img class=avatar src="assets/icons/NFTP0627.jpg" alt="ぱぱこいん" onerror=" this.onerror=null; this.src='https://unavatar.io/x/NFTP0627'" />
+      <img class=avatar src="assets/icons/NFTP0627.jpg" alt="ぱぱこいん" loading="lazy" decoding="async" onerror=" this.onerror=null; this.src='https://unavatar.io/x/NFTP0627'" />
       <div>
         <div class=name>ぱぱこいん</div>
         <div class=feature>金属加工会社の事務</div>
@@ -134,7 +142,7 @@
   </div>
   <div class=card>
     <div class=row>
-      <img class=avatar src="assets/icons/ha_chi_co_3.jpg" alt="ハチコ" onerror=" this.onerror=null; this.src='https://unavatar.io/x/ha_chi_co_3'" />
+      <img class=avatar src="assets/icons/ha_chi_co_3.jpg" alt="ハチコ" loading="lazy" decoding="async" onerror=" this.onerror=null; this.src='https://unavatar.io/x/ha_chi_co_3'" />
       <div>
         <div class=name>ハチコ</div>
         <div class=feature>社内SE/Udemy講師/ママエンジニア</div>
@@ -149,7 +157,7 @@
   </div>
   <div class=card>
     <div class=row>
-      <img class=avatar src="assets/icons/rii2_4.jpg" alt="Rii2リツ" onerror=" this.onerror=null; this.src='https://unavatar.io/x/rii2_4'" />
+      <img class=avatar src="assets/icons/rii2_4.jpg" alt="Rii2リツ" loading="lazy" decoding="async" onerror=" this.onerror=null; this.src='https://unavatar.io/x/rii2_4'" />
       <div>
         <div class=name>Rii2リツ</div>
         <div class=feature>キャラデザ/イラストレーター</div>
@@ -164,7 +172,7 @@
   </div>
   <div class=card>
     <div class=row>
-      <img class=avatar src="assets/icons/michiyospiritual.jpg" alt="MB／みちよ" onerror="" />
+      <img class=avatar src="assets/icons/michiyospiritual.jpg" alt="MB／みちよ" loading="lazy" decoding="async" onerror="" />
       <div>
         <div class=name>MB／みちよ</div>
         <div class=feature>スピリチュアルカウンセラー/配信者</div>
@@ -179,7 +187,7 @@
   </div>
   <div class=card>
     <div class=row>
-      <img class=avatar src="assets/icons/nft_syou.jpg" alt="syou" onerror=" this.onerror=null; this.src='https://unavatar.io/x/nft_syou'" />
+      <img class=avatar src="assets/icons/nft_syou.jpg" alt="syou" loading="lazy" decoding="async" onerror=" this.onerror=null; this.src='https://unavatar.io/x/nft_syou'" />
       <div>
         <div class=name>syou</div>
         <div class=feature>NFT/CNPエンジニア/フリーランス</div>
@@ -194,7 +202,7 @@
   </div>
   <div class=card>
     <div class=row>
-      <img class=avatar src="assets/icons/mahiro183672.jpg" alt="まひろ" onerror=" this.onerror=null; this.src='https://unavatar.io/x/mahiro183672'" />
+      <img class=avatar src="assets/icons/mahiro183672.jpg" alt="まひろ" loading="lazy" decoding="async" onerror=" this.onerror=null; this.src='https://unavatar.io/x/mahiro183672'" />
       <div>
         <div class=name>まひろ</div>
         <div class=feature>会社員/発信者（X/Voicy）</div>
@@ -209,7 +217,7 @@
   </div>
   <div class=card>
     <div class=row>
-      <img class=avatar src="assets/icons/IHayato.jpg" alt="イケハヤ" onerror=" this.onerror=null; this.src='https://unavatar.io/x/IHayato'" />
+      <img class=avatar src="assets/icons/IHayato.jpg" alt="イケハヤ" loading="lazy" decoding="async" onerror=" this.onerror=null; this.src='https://unavatar.io/x/IHayato'" />
       <div>
         <div class=name>イケハヤ</div>
         <div class=feature>特別ゲスト</div>
@@ -224,7 +232,7 @@
   </div>
   <div class=card>
     <div class=row>
-      <img class=avatar src="assets/icons/munakata_souri.jpg" alt="むなかた総理" onerror=" this.onerror=null; this.src='https://unavatar.io/x/munakata_souri'" />
+      <img class=avatar src="assets/icons/munakata_souri.jpg" alt="むなかた総理" loading="lazy" decoding="async" onerror=" this.onerror=null; this.src='https://unavatar.io/x/munakata_souri'" />
       <div>
         <div class=name>むなかた総理</div>
         <div class=feature>講師</div>
@@ -239,7 +247,7 @@
   </div>
   <div class=card>
     <div class=row>
-      <img class=avatar src="assets/icons/ryuta_fit.jpg" alt="RYUTA" onerror=" this.onerror=null; this.src='https://unavatar.io/x/ryuta_fit'" />
+      <img class=avatar src="assets/icons/ryuta_fit.jpg" alt="RYUTA" loading="lazy" decoding="async" onerror=" this.onerror=null; this.src='https://unavatar.io/x/ryuta_fit'" />
       <div>
         <div class=name>RYUTA</div>
         <div class=feature>整体師/トレーナー/運営サポート</div>
@@ -254,7 +262,7 @@
   </div>
   <div class=card>
     <div class=row>
-      <img class=avatar src="assets/icons/Diagram_Wolf.jpg" alt="図解師★ウルフ" onerror=" this.onerror=null; this.src='https://unavatar.io/x/Diagram_Wolf'" />
+      <img class=avatar src="assets/icons/Diagram_Wolf.jpg" alt="図解師★ウルフ" loading="lazy" decoding="async" onerror=" this.onerror=null; this.src='https://unavatar.io/x/Diagram_Wolf'" />
       <div>
         <div class=name>図解師★ウルフ</div>
         <div class=feature>図解/Podcast/自動化</div>
@@ -269,7 +277,7 @@
   </div>
   <div class=card>
     <div class=row>
-      <img class=avatar src="assets/icons/orca48691.jpg" alt="ryuji / ブロックチェーンエンジニア" onerror=" this.onerror=null; this.src='https://unavatar.io/x/orca48691'" />
+      <img class=avatar src="assets/icons/orca48691.jpg" alt="ryuji / ブロックチェーンエンジニア" loading="lazy" decoding="async" onerror=" this.onerror=null; this.src='https://unavatar.io/x/orca48691'" />
       <div>
         <div class=name>ryuji / ブロックチェーンエンジニア</div>
         <div class=feature>ブロックチェーンエンジニア</div>

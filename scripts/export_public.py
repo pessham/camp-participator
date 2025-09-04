@@ -104,19 +104,27 @@ def write_html(rows: List[dict]):
     .btn { display:inline-block; padding:8px 14px; border-radius:999px; border:1px solid rgba(255,255,255,0.12); color:#0b1220; background:#22d3ee; text-decoration:none; font-weight:600; }
     .btn:hover { filter: brightness(1.05); }
     .container { max-width:1100px; margin:0 auto; padding:16px; }
-    .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap:16px; }
+    .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap:16px; }
     .card { background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02)); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:14px; }
     .avatar { width:72px; height:72px; border-radius:50%; object-fit:cover; border:2px solid rgba(255,255,255,0.1); background:#222; }
     .row { display:flex; gap:12px; align-items:center; }
     .name { font-size:18px; font-weight:700; }
     .feature { color:var(--accent); font-size:14px; margin-top:2px; }
-    .meta { color:var(--muted); font-size:13px; margin-top:8px; }
-    .desc { font-size:14px; line-height:1.5; margin-top:8px; color:#d1d5db; }
+    .meta { color:var(--muted); font-size:13px; margin-top:8px; word-break: break-word; overflow-wrap: anywhere; }
+    .desc { font-size:14px; line-height:1.6; margin-top:8px; color:#d1d5db; word-break: break-word; overflow-wrap: anywhere; }
     .tags { display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
     .tag { border:1px solid rgba(255,255,255,0.12); color:var(--muted); padding:2px 8px; border-radius:999px; font-size:12px; }
-    .links { display:flex; gap:10px; margin-top:10px; }
+    .links { display:flex; gap:10px; margin-top:10px; flex-wrap: wrap; }
     .link { color:#93c5fd; text-decoration:none; font-size:13px; }
     footer { text-align:center; color:var(--muted); padding:24px; font-size:13px; }
+    @media (max-width: 640px) {
+      .container { padding: 12px; }
+      .grid { grid-template-columns: 1fr; gap: 12px; }
+      .card { padding: 12px; }
+      .avatar { width: 64px; height: 64px; }
+      .name { font-size: 17px; }
+      .feature { font-size: 13px; }
+    }
   </style>
   <meta name="robots" content="noindex" />
   <!-- 共有時のみ index へ変更 -->
@@ -155,7 +163,7 @@ def write_html(rows: List[dict]):
                     else ""
                 )
                 f.write(
-                    f"      <img class=avatar src=\"{img_src}\" alt=\"{name}\" onerror=\"{onerr}\" />\n"
+                    f"      <img class=avatar src=\"{img_src}\" alt=\"{name}\" loading=\"lazy\" decoding=\"async\" onerror=\"{onerr}\" />\n"
                 )
             f.write("      <div>\n")
             f.write(f"        <div class=name>{name}</div>\n")
