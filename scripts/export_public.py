@@ -12,6 +12,7 @@ OUT_CSV = os.path.join(OUT_DIR, "participants_public.csv")
 OUT_MD = "docs/名簿_公開版.md"
 OUT_HTML = "docs/index.html"
 DOCS_ASSETS_DIR = "docs/assets/icons"
+OFFICIAL_URL = "https://kochi-vibecording-camp.netlify.app/"
 
 
 def truthy(s: str) -> bool:
@@ -35,6 +36,7 @@ def write_md(rows: List[dict], fieldnames: List[str]):
     md_fields = [fn for fn in fieldnames if fn != "公開可否"]
     with open(OUT_MD, "w", encoding="utf-8") as f:
         f.write("# バイブコーディングキャンプ 参加者名簿（公開版）\n\n")
+        f.write(f"公式サイト: {OFFICIAL_URL}\n\n")
         # Header
         f.write("| " + " | ".join(md_fields) + " |\n")
         f.write("|" + "|".join(["---"] * len(md_fields)) + "|\n")
@@ -97,6 +99,9 @@ def write_html(rows: List[dict]):
     header { padding:24px 16px; text-align:center; }
     header h1 { margin:0 0 8px; font-size:28px; }
     header p { margin:0; color:var(--muted); }
+    .cta { margin-top:12px; }
+    .btn { display:inline-block; padding:8px 14px; border-radius:999px; border:1px solid rgba(255,255,255,0.12); color:#0b1220; background:#22d3ee; text-decoration:none; font-weight:600; }
+    .btn:hover { filter: brightness(1.05); }
     .container { max-width:1100px; margin:0 auto; padding:16px; }
     .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap:16px; }
     .card { background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02)); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:14px; }
@@ -119,6 +124,7 @@ def write_html(rows: List[dict]):
   <header>
     <h1>バイブコーディングキャンプ 参加者名簿（公開版）</h1>
     <p>公開同意済みの参加者のみ表示しています。</p>
+    <div class="cta"><a class="btn" target="_blank" rel="noopener" href=""" + OFFICIAL_URL + """>公式サイトへ</a></div>
   </header>
   <div class="container">
 """)
