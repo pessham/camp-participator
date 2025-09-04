@@ -139,8 +139,21 @@ def write_html(rows: List[dict]):
 """)
         if not rows:
             f.write("<p style='color:#9ca3af;text-align:center'>公開可否を true に設定するとカードが表示されます。</p>")
+        # Sort: non-bottom first, people with icons first, keep original order otherwise
+        bottom_names = {"イケハヤ", "むなかた総理", "RYUTA"}
+        def has_icon_row(r: dict) -> bool:
+            icon_spec = (r.get("アイコンURL") or "").strip()
+            xh = extract_x_handle(r.get("XアカウントURL") or "")
+            return bool(icon_spec or xh)
+        indexed = list(enumerate(rows))
+        indexed.sort(key=lambda it: (
+            1 if (it[1].get("ハンドルネーム") or "") in bottom_names else 0,
+            0 if has_icon_row(it[1]) else 1,
+            it[0],
+        ))
+
         f.write("<div class=grid>\n")
-        for r in rows:
+        for _, r in indexed:
             icon_src = ensure_docs_icons((r.get("アイコンURL") or "").strip())
             # Use priority: local -> unavatar -> live X（安定優先）
             x_handle = extract_x_handle(r.get("XアカウントURL") or "")
