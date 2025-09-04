@@ -65,6 +65,25 @@ def ensure_docs_icons(icon_path: str) -> str:
 
 
 def write_html(rows: List[dict]):
+    def extract_x_handle(x_url: str) -> str:
+        if not x_url:
+            return ""
+        x_url = x_url.strip()
+        if x_url.startswith("@"):  # raw handle
+            return x_url[1:]
+        if x_url.startswith("http"):
+            try:
+                from urllib.parse import urlsplit
+
+                parts = urlsplit(x_url)
+                path = parts.path or ""
+                handle = path.strip("/").split("/")[0]
+                handle = handle.split("?")[0]
+                return handle
+            except Exception:
+                return ""
+        return x_url
+
     with open(OUT_HTML, "w", encoding="utf-8") as f:
         f.write("""<!DOCTYPE html>
 <html lang="ja">
@@ -108,6 +127,9 @@ def write_html(rows: List[dict]):
         f.write("<div class=grid>\n")
         for r in rows:
             icon_src = ensure_docs_icons((r.get("アイコンURL") or "").strip())
+            # Fallback to unavatar for X handle if local icon missing or fails to load
+            x_handle = extract_x_handle(r.get("XアカウントURL") or "")
+            fallback_icon = f"https://unavatar.io/x/{x_handle}" if x_handle else ""
             name = htmllib.escape(r.get("ハンドルネーム") or "")
             feat = htmllib.escape(r.get("特徴（ひとことで）") or "")
             loc = htmllib.escape(r.get("お住まい") or "")
@@ -118,8 +140,16 @@ def write_html(rows: List[dict]):
             desc = htmllib.escape(r.get("リアル人物の特徴説明") or r.get("ひとこと") or "")
             f.write("  <div class=card>\n")
             f.write("    <div class=row>\n")
-            if icon_src:
-                f.write(f"      <img class=avatar src=\"{icon_src}\" alt=\"{name}\" />\n")
+            img_src = icon_src or fallback_icon
+            if img_src:
+                onerr = (
+                    f" this.onerror=null; this.src='{fallback_icon}'"
+                    if fallback_icon and icon_src
+                    else ""
+                )
+                f.write(
+                    f"      <img class=avatar src=\"{img_src}\" alt=\"{name}\" onerror=\"{onerr}\" />\n"
+                )
             f.write("      <div>\n")
             f.write(f"        <div class=name>{name}</div>\n")
             if feat:
