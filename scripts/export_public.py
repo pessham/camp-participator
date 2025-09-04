@@ -142,7 +142,7 @@ def write_html(rows: List[dict]):
         f.write("<div class=grid>\n")
         for r in rows:
             icon_src = ensure_docs_icons((r.get("アイコンURL") or "").strip())
-            # Use priority: local -> live X -> unavatar
+            # Use priority: unavatar -> local -> live X (robust display)
             x_handle = extract_x_handle(r.get("XアカウントURL") or "")
             x_live = f"https://x.com/{x_handle}/profile_image?size=original" if x_handle else ""
             unavatar = f"https://unavatar.io/x/{x_handle}" if x_handle else ""
@@ -157,7 +157,7 @@ def write_html(rows: List[dict]):
             f.write("  <div class=card>\n")
             f.write("    <div class=row>\n")
             # Build fallback chain
-            sources = [s for s in [icon_src, x_live, unavatar] if s]
+            sources = [s for s in [unavatar, icon_src, x_live] if s]
             if sources:
                 src0 = sources[0]
                 src1 = sources[1] if len(sources) > 1 else ""

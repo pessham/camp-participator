@@ -36,14 +36,15 @@ def extract_handle(x_url: str) -> str:
 
 
 def download_first(candidates, out_path: str) -> bool:
-    """Try a list of URLs and save the first that returns data."""
+    """Try a list of URLs and save the first that returns image/* content."""
     headers = {"User-Agent": "Mozilla/5.0 (Codex CLI)"}
     for url in candidates:
         try:
             req = Request(url, headers=headers)
             with urlopen(req, timeout=20) as resp:
+                ctype = resp.headers.get("Content-Type", "")
                 data = resp.read()
-                if not data:
+                if not data or not ctype.startswith("image/"):
                     continue
                 os.makedirs(os.path.dirname(out_path), exist_ok=True)
                 with open(out_path, "wb") as f:
@@ -55,9 +56,11 @@ def download_first(candidates, out_path: str) -> bool:
 
 
 def fetch_x_icon(handle: str, out_path: str) -> bool:
-    # Try unavatar first, then twitter redirect endpoint
+    # Try unavatar variants first, then twitter redirect endpoint
     candidates = [
         f"https://unavatar.io/x/{handle}",
+        f"https://unavatar.io/twitter/{handle}",
+        f"https://unavatar.io/https://twitter.com/{handle}",
         f"https://twitter.com/{handle}/profile_image?size=original",
     ]
     return download_first(candidates, out_path)
@@ -84,8 +87,13 @@ def fetch_youtube_icon(handle: str, out_path: str) -> bool:
 
 def main():
     csv_path = CSV_PATH
+    force = False
     if len(sys.argv) > 1:
-        csv_path = sys.argv[1]
+        for arg in sys.argv[1:]:
+            if arg == "--force":
+                force = True
+            else:
+                csv_path = arg
     if not os.path.exists(csv_path):
         print(f"CSV not found: {csv_path}", file=sys.stderr)
         sys.exit(1)
@@ -102,7 +110,7 @@ def main():
 
             if x_handle:
                 out_path = os.path.join(OUT_DIR, f"{x_handle}.jpg")
-                if os.path.exists(out_path):
+                if os.path.exists(out_path) and not force:
                     ok += 1
                     continue
                 fetched = fetch_x_icon(x_handle, out_path)
