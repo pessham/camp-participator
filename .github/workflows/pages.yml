@@ -37,6 +37,7 @@ jobs:
         uses: actions/configure-pages@v5
         with:
           enablement: true
+          token: ${{ secrets.GH_PAGES_TOKEN || secrets.GH_PAT || github.token }}
 
       - name: Upload artifact (docs)
         uses: actions/upload-pages-artifact@v3
