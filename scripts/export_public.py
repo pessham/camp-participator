@@ -142,9 +142,10 @@ def write_html(rows: List[dict]):
         f.write("<div class=grid>\n")
         for r in rows:
             icon_src = ensure_docs_icons((r.get("アイコンURL") or "").strip())
-            # Fallback to unavatar for X handle if local icon missing or fails to load
+            # Prefer live profile image from X to avoid stale caches; fallback to unavatar, then local
             x_handle = extract_x_handle(r.get("XアカウントURL") or "")
-            fallback_icon = f"https://unavatar.io/x/{x_handle}" if x_handle else ""
+            x_live = f"https://x.com/{x_handle}/profile_image?size=original" if x_handle else ""
+            fallback_icon = f"https://unavatar.io/x/{x_handle}" if x_handle else icon_src
             name = htmllib.escape(r.get("ハンドルネーム") or "")
             feat = htmllib.escape(r.get("特徴（ひとことで）") or "")
             loc = htmllib.escape(r.get("お住まい") or "")
@@ -155,15 +156,16 @@ def write_html(rows: List[dict]):
             desc = htmllib.escape(r.get("リアル人物の特徴説明") or r.get("ひとこと") or "")
             f.write("  <div class=card>\n")
             f.write("    <div class=row>\n")
-            img_src = icon_src or fallback_icon
+            # Try live X first, then local copy, then unavatar
+            img_src = x_live or icon_src or fallback_icon
             if img_src:
                 onerr = (
-                    f" this.onerror=null; this.src='{fallback_icon}'"
-                    if fallback_icon and icon_src
+                    f" this.onerror=null; this.src='{fallback_icon or icon_src}'"
+                    if (fallback_icon or icon_src)
                     else ""
                 )
                 f.write(
-                    f"      <img class=avatar src=\"{img_src}\" alt=\"{name}\" loading=\"lazy\" decoding=\"async\" onerror=\"{onerr}\" />\n"
+                    f"      <img class=avatar src=\"{img_src}\" alt=\"{name}\" loading=\"lazy\" decoding=\"async\" referrerpolicy=\"no-referrer\" onerror=\"{onerr}\" />\n"
                 )
             f.write("      <div>\n")
             f.write(f"        <div class=name>{name}</div>\n")
