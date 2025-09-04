@@ -35,7 +35,8 @@ def write_md(rows: List[dict], fieldnames: List[str]):
     # Exclude the publish flag from Markdown output
     md_fields = [fn for fn in fieldnames if fn != "公開可否"]
     with open(OUT_MD, "w", encoding="utf-8") as f:
-        f.write("# バイブコーディングキャンプ 参加者名簿（公開版）\n\n")
+        f.write("# バイブコーディングキャンプ 参加者名簿\n\n")
+        f.write("（注）Discordで自己紹介いただいた方のみ表示しています。\n\n")
         f.write(f"公式サイト: {OFFICIAL_URL}\n\n")
         # Header
         f.write("| " + " | ".join(md_fields) + " |\n")
@@ -92,7 +93,7 @@ def write_html(rows: List[dict]):
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>バイブコーディングキャンプ 参加者名簿（公開版）</title>
+  <title>バイブコーディングキャンプ 参加者名簿</title>
   <style>
     :root { --bg:#0f172a; --card:#111827; --text:#e5e7eb; --muted:#9ca3af; --accent:#22d3ee; }
     body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Noto Sans JP, sans-serif; background:var(--bg); color:var(--text); }
@@ -122,9 +123,9 @@ def write_html(rows: List[dict]):
 </head>
 <body>
   <header>
-    <h1>バイブコーディングキャンプ 参加者名簿（公開版）</h1>
-    <p>公開同意済みの参加者のみ表示しています。</p>
-    <div class="cta"><a class="btn" target="_blank" rel="noopener" href=""" + OFFICIAL_URL + """>公式サイトへ</a></div>
+    <h1>バイブコーディングキャンプ 参加者名簿</h1>
+    <p>Discordで自己紹介いただいた方のみ表示しています。</p>
+    <div class="cta"><a class="btn" target="_blank" rel="noopener" href="https://kochi-vibecording-camp.netlify.app/">公式サイトへ</a></div>
   </header>
   <div class="container">
 """)
