@@ -107,6 +107,7 @@ def write_html(rows: List[dict]):
     .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap:16px; }
     .card { background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02)); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:14px; }
     .avatar { width:72px; height:72px; border-radius:50%; object-fit:cover; border:2px solid rgba(255,255,255,0.1); background:#222; }
+    .avatar-link { display:inline-block; line-height:0; }
     .row { display:flex; gap:12px; align-items:center; }
     .name { font-size:18px; font-weight:700; }
     .feature { color:var(--accent); font-size:14px; margin-top:2px; }
@@ -163,7 +164,7 @@ def write_html(rows: List[dict]):
             feat = htmllib.escape(r.get("特徴（ひとことで）") or "")
             loc = htmllib.escape(r.get("お住まい") or "")
             job = htmllib.escape(r.get("お仕事") or "")
-            x_url = r.get("XアカウントURL") or ""
+            x_url = (r.get("XアカウントURL") or "").strip()
             sns = (r.get("SNSリンク") or "").split(",")
             sns = [s.strip() for s in sns if s.strip()]
             desc = htmllib.escape(r.get("リアル人物の特徴説明") or r.get("ひとこと") or "")
@@ -182,9 +183,15 @@ def write_html(rows: List[dict]):
                     onerr_parts.append(f"if(this.dataset.step==='1'){{this.dataset.step='2';this.src='{src2}';return;}}")
                 onerr_parts.append("this.onerror=null")
                 onerr = " ".join(onerr_parts)
+                click_url = x_url or (sns[0] if sns else "")
+                if click_url:
+                    click_esc = htmllib.escape(click_url)
+                    f.write(f"      <a class=avatar-link target=_blank rel=noopener href=\"{click_esc}\">\n")
                 f.write(
                     f"      <img class=avatar src=\"{src0}\" alt=\"{name}\" loading=\"lazy\" decoding=\"async\" referrerpolicy=\"no-referrer\" onerror=\"{onerr}\" />\n"
                 )
+                if click_url:
+                    f.write("      </a>\n")
             f.write("      <div>\n")
             f.write(f"        <div class=name>{name}</div>\n")
             if feat:
