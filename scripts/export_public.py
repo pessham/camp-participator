@@ -4,6 +4,7 @@ import os
 import shutil
 from typing import List
 import html as htmllib
+import re
 
 
 IN_CSV = "data/participants_template.csv"
@@ -87,6 +88,12 @@ def write_html(rows: List[dict]):
                 return ""
         return x_url
 
+    def extract_instagram_handle_from_links(links: str) -> str:
+        if not links:
+            return ""
+        m = re.search(r"instagram\.com/([^/?#]+)", links)
+        return m.group(1) if m else ""
+
     with open(OUT_HTML, "w", encoding="utf-8") as f:
         f.write("""<!DOCTYPE html>
 <html lang="ja">
@@ -152,7 +159,8 @@ def write_html(rows: List[dict]):
         def has_icon_row(r: dict) -> bool:
             icon_spec = (r.get("アイコンURL") or "").strip()
             xh = extract_x_handle(r.get("XアカウントURL") or "")
-            return bool(icon_spec or xh)
+            ig = extract_instagram_handle_from_links(r.get("SNSリンク") or "")
+            return bool(icon_spec or xh or ig)
         indexed = list(enumerate(rows))
         indexed.sort(key=lambda it: (
             1 if (it[1].get("ハンドルネーム") or "") in bottom_names else 0,
@@ -162,11 +170,18 @@ def write_html(rows: List[dict]):
 
         f.write("<div class=grid>\n")
         for _, r in indexed:
+            # Prefer explicit icon URL; else try local icons derived from X/Instagram handles
             icon_src = ensure_docs_icons((r.get("アイコンURL") or "").strip())
             # Use priority: local -> unavatar -> live X（安定優先）
             x_handle = extract_x_handle(r.get("XアカウントURL") or "")
+            ig_handle = extract_instagram_handle_from_links(r.get("SNSリンク") or "")
+            if not icon_src:
+                if x_handle:
+                    icon_src = ensure_docs_icons(f"assets/icons/{x_handle}.jpg")
+            if not icon_src and ig_handle:
+                icon_src = ensure_docs_icons(f"assets/icons/{ig_handle}.jpg")
             x_live = f"https://x.com/{x_handle}/profile_image?size=original" if x_handle else ""
-            unavatar = f"https://unavatar.io/x/{x_handle}" if x_handle else ""
+            unavatar = f"https://unavatar.io/x/{x_handle}" if x_handle else (f"https://unavatar.io/instagram/{ig_handle}" if ig_handle else "")
             name = htmllib.escape(r.get("ハンドルネーム") or "")
             feat = htmllib.escape(r.get("特徴（ひとことで）") or "")
             loc = htmllib.escape(r.get("お住まい") or "")
