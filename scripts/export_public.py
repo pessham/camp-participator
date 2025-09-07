@@ -110,7 +110,6 @@ def write_html(rows: List[dict]):
     .cta { margin-top:12px; }
     .btn { display:inline-block; padding:8px 14px; border-radius:999px; border:1px solid rgba(255,255,255,0.12); color:#0b1220; background:#22d3ee; text-decoration:none; font-weight:600; transition: filter .15s ease, transform .15s ease; }
     .btn:hover { filter: brightness(1.08); transform: translateY(-1px); }
-    .btn.secondary { background:#5865F2; color:#fff; }
     .cta .btn { margin: 0 6px; }
     .container { max-width:1100px; margin:0 auto; padding:16px; }
     .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap:16px; }
@@ -148,7 +147,7 @@ def write_html(rows: List[dict]):
   <header>
     <h1>バイブコーディングキャンプ 参加者名簿</h1>
     <p>Discordで自己紹介いただいた方のみ表示しています。</p>
-    <div class="cta"><a class="btn" target="_blank" rel="noopener" href="https://kochi-vibecording-camp.netlify.app/">公式サイトへ</a> <a class="btn secondary" target="_blank" rel="noopener" href="https://discord.gg/s8ZQUW6zvS">Discordへ</a></div>
+    <div class="cta"><a class="btn" target="_blank" rel="noopener" href="https://kochi-vibecording-camp.netlify.app/">公式サイトへ</a></div>
   </header>
   <div class="container">
 """)
